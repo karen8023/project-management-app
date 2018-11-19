@@ -1,0 +1,86 @@
+import React, { Component } from "react";
+import "./Home.css";
+import { API } from "aws-amplify";
+import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+
+export default class Home extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: true,
+
+      users:[]
+    }
+  }
+  
+  async componentDidMount() {
+    if (!this.props.isAuthenticated) {
+      return;
+    }
+  
+    try {
+      
+      const users = await this.users();
+      this.setState({ users });
+
+    } catch (e) {
+      alert(e);
+    }
+  
+    this.setState({ isLoading: false });
+  }
+  
+  users (){
+    return API.get("notes", "/user");
+
+  }
+ 
+  
+  renderuserList(users) {
+    return [{}].concat(users).map(
+      (user, i) =>
+        i !== 0
+          ? <LinkContainer
+              key=""
+              to="/">
+              <ListGroupItem >
+                {"email: " +  user.userId}
+                {/* {"postion: " +  user.postion() } */}
+              </ListGroupItem>
+            </LinkContainer>
+          : <LinkContainer
+              key="new"
+              to="/user/new"
+            >
+              <ListGroupItem>
+                <h4>
+                  <b>{"\uFF0B"}</b> Create a new engineer
+                </h4>
+              </ListGroupItem>
+            </LinkContainer>
+    );
+  }
+
+  
+  renderLander() {
+    return (
+      <div className="lander">
+        <h1></h1>
+        <p></p>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+    
+      <div className="Home">
+        {this.props.isAuthenticated ? this.renderuserList() : this.renderLander()}
+      </div>
+      
+    
+    );
+  }
+}

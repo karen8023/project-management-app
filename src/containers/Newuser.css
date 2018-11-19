@@ -1,0 +1,10 @@
+.Newuser form {
+    padding-bottom: 15px;
+  }
+  
+  .Newuser form textarea {
+    height: 50px;
+    
+    font-size: 24px;
+   
+  }

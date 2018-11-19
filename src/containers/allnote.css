@@ -1,0 +1,8 @@
+.allnote form {
+    padding-bottom: 15px;
+  }
+  
+  .allnote form textarea {
+    height: 200px;
+    font-size: 24px;
+  }
